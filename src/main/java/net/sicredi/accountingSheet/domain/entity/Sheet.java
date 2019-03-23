@@ -1,22 +1,18 @@
-package net.sicredi.accountingSheet.entities;
+package net.sicredi.accountingSheet.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.annotation.Id;
+import com.opencsv.bean.CsvDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotBlank;
-import java.util.Date;
+import javax.validation.constraints.Past;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Document(collection = "sheets")
-@JsonIgnoreProperties(value = {"createAt"}, allowGetters = true)
-public class Sheet {
-
-    @Id
-    private String id;
-
-    @NotBlank
-    private String account;
+@JsonIgnoreProperties(value = {"createAt", "deletedAt"}, allowGetters = true)
+public class Sheet extends AbstractEntity<String> {
 
     @NotBlank
     private String cooperative;
@@ -25,38 +21,52 @@ public class Sheet {
     private String agency;
 
     @NotBlank
-    private Date date;
+    private String account;
+
+    @NotBlank
+    @CsvDate("dd/MM/yyyy")
+    @Past
+    private LocalDate date;
 
     @NotBlank
     private String description;
 
     @NotBlank
+    private BigDecimal value;
+
+    @NotBlank
     private String responsibility;
 
+    private String status;
+
+    private String emailDate;
+
+    @NotBlank
     private String criticality;
 
     private String note;
 
-    @NotBlank
-    private Date createdAt = new Date();
+    public Sheet() {
+    }
 
-    private Date deletedAt;
-
+    public Sheet(@NotBlank String cooperative, @NotBlank String agency, @NotBlank String account,
+                 @NotBlank @Past LocalDate date, @NotBlank String description, @NotBlank BigDecimal value,
+                 @NotBlank String responsibility, String status, String emailDate, @NotBlank String criticality) {
+        this.cooperative = cooperative;
+        this.agency = agency;
+        this.account = account;
+        this.date = date;
+        this.description = description;
+        this.value = value;
+        this.responsibility = responsibility;
+        this.status = status;
+        this.emailDate = emailDate;
+        this.criticality = criticality;
+        createdAt = LocalDate.now();
+    }
 
     public String getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getAccount() {
-        return account;
-    }
-
-    public void setAccount(String account) {
-        this.account = account;
     }
 
     public String getCooperative() {
@@ -75,11 +85,19 @@ public class Sheet {
         this.agency = agency;
     }
 
-    public Date getDate() {
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -91,12 +109,36 @@ public class Sheet {
         this.description = description;
     }
 
+    public BigDecimal getValue() {
+        return value;
+    }
+
+    public void setValue(BigDecimal value) {
+        this.value = value;
+    }
+
     public String getResponsibility() {
         return responsibility;
     }
 
     public void setResponsibility(String responsibility) {
         this.responsibility = responsibility;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getEmailDate() {
+        return emailDate;
+    }
+
+    public void setEmailDate(String emailDate) {
+        this.emailDate = emailDate;
     }
 
     public String getCriticality() {
@@ -115,19 +157,18 @@ public class Sheet {
         this.note = note;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    @Override
+    public LocalDate getCreatedAt() {
+        return super.createdAt;
     }
 
-    public void setCreatedAt(Date createAt) {
-        this.createdAt = createAt;
+    @Override
+    public LocalDate getDeletedAt() {
+        return super.deletedAt;
     }
 
-    public Date getDeletedAt() {
-        return deletedAt;
-    }
-
-    public void setDeletedAt(Date deletedAt) {
+    @Override
+    public void setDeletedAt(LocalDate deletedAt) {
         this.deletedAt = deletedAt;
     }
 
@@ -148,12 +189,15 @@ public class Sheet {
     public String toString() {
         return "Sheet{" +
                 "id='" + id + '\'' +
-                ", account='" + account + '\'' +
                 ", cooperative='" + cooperative + '\'' +
                 ", agency='" + agency + '\'' +
+                ", account='" + account + '\'' +
                 ", date=" + date +
                 ", description='" + description + '\'' +
+                ", value=" + value +
                 ", responsibility='" + responsibility + '\'' +
+                ", status='" + status + '\'' +
+                ", emailDate='" + emailDate + '\'' +
                 ", criticality='" + criticality + '\'' +
                 ", note='" + note + '\'' +
                 ", createdAt=" + createdAt +
