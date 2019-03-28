@@ -46,12 +46,15 @@ public class Sheet extends AbstractEntity<String> {
 
     private String note;
 
+    private String importedBy;
+
     public Sheet() {
     }
 
     public Sheet(@NotBlank String cooperative, @NotBlank String agency, @NotBlank String account,
                  @NotBlank @Past LocalDate date, @NotBlank String description, @NotBlank BigDecimal value,
-                 @NotBlank String responsibility, String status, String emailDate, @NotBlank String criticality) {
+                 @NotBlank String responsibility, String status, String emailDate, @NotBlank String criticality,
+                 @NotBlank String importedBy) {
         this.cooperative = cooperative;
         this.agency = agency;
         this.account = account;
@@ -62,6 +65,7 @@ public class Sheet extends AbstractEntity<String> {
         this.status = status;
         this.emailDate = emailDate;
         this.criticality = criticality;
+        this.importedBy = importedBy;
         createdAt = LocalDate.now();
     }
 
@@ -157,6 +161,14 @@ public class Sheet extends AbstractEntity<String> {
         this.note = note;
     }
 
+    public String getImportedBy() {
+        return importedBy;
+    }
+
+    public void setImportedBy(String importedBy) {
+        this.importedBy = importedBy;
+    }
+
     @Override
     public LocalDate getCreatedAt() {
         return super.createdAt;
@@ -171,6 +183,7 @@ public class Sheet extends AbstractEntity<String> {
     public void setDeletedAt(LocalDate deletedAt) {
         this.deletedAt = deletedAt;
     }
+
 
     @Override
     public boolean equals(Object o) {

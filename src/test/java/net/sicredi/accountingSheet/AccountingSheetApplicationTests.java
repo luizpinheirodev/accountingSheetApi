@@ -37,9 +37,9 @@ public class AccountingSheetApplicationTests {
 
         ImportCsv iC = null;
         Iterable<Sheet> sheets = null;
-        iC = new ImportCsv("C:\\Users\\luiz_geraldo\\Desktop\\Conc. Coop. Seguro Prestamista RS.csv");
+        //iC = new ImportCsv("C:\\Users\\luiz_geraldo\\Desktop\\Conc. Coop. Seguro Prestamista RS.csv");
 
-        List<String[]> allData = iC.readAll();
+        //List<String[]> allData = iC.readAll();
 
         List<Sheet> sheetList = new ArrayList<>();
 

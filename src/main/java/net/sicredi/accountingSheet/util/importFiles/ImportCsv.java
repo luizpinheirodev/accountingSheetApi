@@ -1,20 +1,17 @@
 package net.sicredi.accountingSheet.util.importFiles;
 
-import com.opencsv.CSVParser;
-import com.opencsv.CSVParserBuilder;
-import com.opencsv.CSVReader;
-import com.opencsv.CSVReaderBuilder;
-
-import java.io.*;
-import java.util.List;
-
 public class ImportCsv {
 
-    private String file;
+    //private MultipartFile file;
 
-    public ImportCsv(String file) {
-        this.file = file;
-    }
+    //public ImportCsv(MultipartFile file) {
+    //    this.file = file;
+    //}
+
+
+
+
+    /*
 
     public List readAll() {
 
@@ -22,7 +19,7 @@ public class ImportCsv {
         List<String[]> allData = null;
 
         try {
-            FileReader filereader = new FileReader(file);
+            FileReader filereader = new FileReader(file)
             CSVParser parser = new CSVParserBuilder().withSeparator(';').withStrictQuotes(false).build();
             csvReader = new CSVReaderBuilder(filereader)
                     .withCSVParser(parser)
@@ -42,7 +39,7 @@ public class ImportCsv {
         }
         return allData;
     }
-
+*/
 
     /*Importação linha a linha para array
 

@@ -40,4 +40,30 @@ abstract class GenericMapper<T extends AbstractDTO, H extends AbstractEntity> {
         });
     }
 
+
+
+    public H toEntity(T dto) {
+        final ParameterizedType type = (ParameterizedType) getClass().getGenericSuperclass();
+        Class<H> entityType = (Class<H>) (type).getActualTypeArguments()[1];
+
+        final Optional<T> maybeDTO = Optional.ofNullable(dto);
+        return maybeDTO
+                .map(aClass -> modelMapper.map(dto, entityType))
+                .orElseThrow(() -> new IllegalArgumentException("Param \"dto\" can't be null!"));
+    }
+
+    public Optional<Collection<H>> toEntity(Collection<T> dtos) {
+        final Optional<Collection<T>> maybeEvents = Optional.ofNullable(dtos);
+        return maybeEvents.map(e -> {
+            Stream<H> entitiesStream = e.stream()
+                    .map(this::toEntity);
+            List<H> collect = entitiesStream.collect(Collectors.toList());
+            if (collect.isEmpty()) {
+                return null;
+            }
+            return collect;
+        });
+    }
+
+
 }
