@@ -1,6 +1,8 @@
 package net.sicredi.accountingSheet.controllers;
 
+import net.sicredi.accountingSheet.domain.FileStatus;
 import net.sicredi.accountingSheet.domain.dto.FileImportDTO;
+import net.sicredi.accountingSheet.domain.dto.SheetDTO;
 import net.sicredi.accountingSheet.domain.entity.FileImport;
 import net.sicredi.accountingSheet.service.FileImportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class FileController {
 
     private FileImportService fileImportService;
@@ -37,9 +40,13 @@ public class FileController {
     @PostMapping("/file")
     public ResponseEntity<Object> handleFileUpload(@Valid @RequestBody MultipartFile file) throws IOException {
         FileImport fileImportObj = fileImportService.storeFile(file.getOriginalFilename());
-        FileImportDTO fileImportDTOs = fileImportService.saveFileData(file, fileImportObj);
+        Optional<Collection<SheetDTO>> finalList = fileImportService.saveFileDataReturnList(file, fileImportObj);
 
-        return new ResponseEntity<>(fileImportDTOs, HttpStatus.OK);
+        if(fileImportObj.getStatus() == FileStatus.PROCESSED){
+            return new ResponseEntity<>(fileImportObj, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(finalList, HttpStatus.OK);
     }
 
 }

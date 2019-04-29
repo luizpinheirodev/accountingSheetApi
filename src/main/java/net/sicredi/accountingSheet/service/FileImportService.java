@@ -1,6 +1,7 @@
 package net.sicredi.accountingSheet.service;
 
 import net.sicredi.accountingSheet.domain.dto.FileImportDTO;
+import net.sicredi.accountingSheet.domain.dto.SheetDTO;
 import net.sicredi.accountingSheet.domain.entity.FileImport;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,6 +16,8 @@ public interface FileImportService {
     FileImportDTO saveFileData(MultipartFile file, FileImport fileImport) throws IOException;
 
     Optional<Collection<FileImportDTO>> findAll();
+
+    Optional<Collection<SheetDTO>> saveFileDataReturnList(MultipartFile file, FileImport fileImport) throws IOException;
 
     //String storeFile(MultipartFile file);
 

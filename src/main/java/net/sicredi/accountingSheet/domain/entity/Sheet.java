@@ -6,7 +6,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -32,7 +31,7 @@ public class Sheet extends AbstractEntity<String> {
     private String description;
 
     @NotBlank
-    private BigDecimal value;
+    private Double value;
 
     @NotBlank
     private String responsibility;
@@ -52,7 +51,7 @@ public class Sheet extends AbstractEntity<String> {
     }
 
     public Sheet(@NotBlank String cooperative, @NotBlank String agency, @NotBlank String account,
-                 @NotBlank @Past LocalDate date, @NotBlank String description, @NotBlank BigDecimal value,
+                 @NotBlank @Past LocalDate date, @NotBlank String description, @NotBlank Double value,
                  @NotBlank String responsibility, String status, String emailDate, @NotBlank String criticality,
                  @NotBlank String importedBy) {
         this.cooperative = cooperative;
@@ -113,11 +112,11 @@ public class Sheet extends AbstractEntity<String> {
         this.description = description;
     }
 
-    public BigDecimal getValue() {
+    public Double getValue() {
         return value;
     }
 
-    public void setValue(BigDecimal value) {
+    public void setValue(Double value) {
         this.value = value;
     }
 

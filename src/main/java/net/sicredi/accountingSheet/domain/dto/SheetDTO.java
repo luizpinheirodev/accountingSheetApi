@@ -1,6 +1,5 @@
 package net.sicredi.accountingSheet.domain.dto;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class SheetDTO extends AbstractDTO {
@@ -11,7 +10,7 @@ public class SheetDTO extends AbstractDTO {
     private String account;
     private LocalDate date;
     private String description;
-    private BigDecimal value;
+    private Double value;
     private String responsibility;
     private String status;
     private String emailDate;
@@ -24,7 +23,7 @@ public class SheetDTO extends AbstractDTO {
     }
 
     public SheetDTO(String cooperative, String agency, String account, LocalDate date, String description,
-                    BigDecimal value, String responsibility, String status, String emailDate, String criticality) {
+                    Double value, String responsibility, String status, String emailDate, String criticality) {
         this.cooperative = cooperative;
         this.agency = agency;
         this.account = account;
@@ -82,11 +81,11 @@ public class SheetDTO extends AbstractDTO {
         this.description = description;
     }
 
-    public BigDecimal getValue() {
+    public Double getValue() {
         return value;
     }
 
-    public void setValue(BigDecimal value) {
+    public void setValue(Double value) {
         this.value = value;
     }
 

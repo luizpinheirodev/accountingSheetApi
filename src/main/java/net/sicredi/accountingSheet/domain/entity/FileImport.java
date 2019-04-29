@@ -15,6 +15,9 @@ public class FileImport extends AbstractEntity <String> {
     private FileStatus status;
     private Long processingTime;
 
+    public FileImport() {
+    }
+
     public FileImport(String fileName) {
         this.fileName = fileName;
         this.status = FileStatus.SENT;

@@ -1,8 +1,13 @@
 package net.sicredi.accountingSheet;
 
+import net.sicredi.accountingSheet.domain.dto.AccountDTO;
+import net.sicredi.accountingSheet.domain.entity.Account;
 import net.sicredi.accountingSheet.domain.entity.Sheet;
+import net.sicredi.accountingSheet.mapper.AccountMapper;
 import net.sicredi.accountingSheet.repositories.CoopRepository;
 import net.sicredi.accountingSheet.repositories.SheetRepository;
+import net.sicredi.accountingSheet.service.AccountService;
+import net.sicredi.accountingSheet.service.SheetService;
 import net.sicredi.accountingSheet.util.importFiles.ImportCsv;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +33,15 @@ public class AccountingSheetApplicationTests {
     @Autowired
     private CoopRepository coopRepository;
 
+    @Autowired
+    private SheetService sheetService;
+
+    @Autowired
+    private AccountService accountService;
+
+    @Autowired
+    private AccountMapper accountMapper;
+
     SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
     DecimalFormat df = new DecimalFormat("#,##0.00", new DecimalFormatSymbols(new Locale("pt", "BR")));
     //DecimalFormat df = new DecimalFormat("000,00");
@@ -48,7 +62,7 @@ public class AccountingSheetApplicationTests {
             Sheet l = new Sheet();
             l.setCooperative(line[0]);
             l.setAgency(line[1]);
-            l.setAccount(line[2]);
+            l.setNumber(line[2]);
             l.setDate(sdf.parse(line[3]));
             l.setDescription(line[4]);
             l.setValue(new BigDecimal(line[5].replace(".", "").replace(",", ".")));
@@ -82,4 +96,35 @@ public class AccountingSheetApplicationTests {
         */
     }
 
+    @Test
+    public void insertAccount(){
+        Account a1 = new Account();
+        a1.setNumber("4518090006");
+        a1.setName("Convênio Seguro Prestamista");
+        a1.setDescription("Conta referente aos convênios de seguro prestmista");
+        AccountDTO a1DTO = accountMapper.toDTO(a1);
+
+        Account a2 = new Account();
+        a2.setNumber("4518090007");
+        a2.setName("Convênio Pagamento");
+        a2.setDescription("Conta referente aos convênios de diversos de pagamentos");
+        AccountDTO a2DTO = accountMapper.toDTO(a2);
+
+
+        accountService.createAccount(a1DTO);
+        accountService.createAccount(a2DTO);
+
+    }
+
+    @Test
+    public void sumAccounts() {
+        String number = "451809000";
+        List<AccountDTO> getAccountTotal = accountService.findByAccountStartingWith(number);
+
+        for (AccountDTO list : getAccountTotal) {
+            System.out.println(list.toString());
+        }
+    }
+
 }
+//12626.14
